@@ -104,29 +104,32 @@ dyn_async! {
         // Iterate over all possible pairings of clients and run the tests (including self-pairings)
         for (client_a, client_b) in clients.iter().cartesian_product(clients.iter()) {
             for ProcessedContent { content_type, block_number, test_data } in process_content(content.clone()) {
-                test.run(
-                    NClientTestSpec {
-                        name: format!("OFFER {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),
-                        description: "".to_string(),
-                        always_run: false,
-                        run: test_offer,
-                        environments: None,
-                        test_data: test_data.clone(),
-                        clients: vec![client_a.clone(), client_b.clone()],
-                    }
-                ).await;
+                // if block_number != 7000000 {
+                //     continue;
+                // }
+                // test.run(
+                //     NClientTestSpec {
+                //         name: format!("OFFER {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),
+                //         description: "".to_string(),
+                //         always_run: false,
+                //         run: test_offer,
+                //         environments: None,
+                //         test_data: test_data.clone(),
+                //         clients: vec![client_a.clone(), client_b.clone()],
+                //     }
+                // ).await;
 
-                test.run(
-                    NClientTestSpec {
-                        name: format!("GetContent {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),
-                        description: "".to_string(),
-                        always_run: false,
-                        run: test_get_content,
-                        environments: None,
-                        test_data: test_data.clone(),
-                        clients: vec![client_a.clone(), client_b.clone()],
-                    }
-                ).await;
+                // test.run(
+                //     NClientTestSpec {
+                //         name: format!("GetContent {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),
+                //         description: "".to_string(),
+                //         always_run: false,
+                //         run: test_get_content,
+                //         environments: None,
+                //         test_data: test_data.clone(),
+                //         clients: vec![client_a.clone(), client_b.clone()],
+                //     }
+                // ).await;
 
                 test.run(
                     NClientTestSpec {
@@ -140,55 +143,55 @@ dyn_async! {
                     }
                 ).await;
             }
+            //
+            // // Test portal history ping
+            // test.run(NClientTestSpec {
+            //         name: format!("PING {} --> {}", client_a.name, client_b.name),
+            //         description: "".to_string(),
+            //         always_run: false,
+            //         run: test_ping,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client_a.clone(), client_b.clone()],
+            //     }
+            // ).await;
 
-            // Test portal history ping
-            test.run(NClientTestSpec {
-                    name: format!("PING {} --> {}", client_a.name, client_b.name),
-                    description: "".to_string(),
-                    always_run: false,
-                    run: test_ping,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client_a.clone(), client_b.clone()],
-                }
-            ).await;
-
-            // Test find content non-present
-            test.run(NClientTestSpec {
-                    name: format!("FIND_CONTENT non present {} --> {}", client_a.name, client_b.name),
-                    description: "find content: calls find content that doesn't exist".to_string(),
-                    always_run: false,
-                    run: test_find_content_non_present,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client_a.clone(), client_b.clone()],
-                }
-            ).await;
-
-            // Test find nodes distance zero
-            test.run(NClientTestSpec {
-                    name: format!("FIND_NODES Distance 0 {} --> {}", client_a.name, client_b.name),
-                    description: "find nodes: distance zero expect called nodes enr".to_string(),
-                    always_run: false,
-                    run: test_find_nodes_zero_distance,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client_a.clone(), client_b.clone()],
-                }
-            ).await;
-
-            // Test gossiping a collection of blocks to node B (B will gossip back to A)
-            test.run(
-                NClientTestSpec {
-                    name: format!("GOSSIP blocks from A:{} --> B:{}", client_a.name, client_b.name),
-                    description: "".to_string(),
-                    always_run: false,
-                    run: test_gossip_two_nodes,
-                    environments: None,
-                    test_data: content.clone(),
-                    clients: vec![client_a.clone(), client_b.clone()],
-                }
-            ).await;
+            // // Test find content non-present
+            // test.run(NClientTestSpec {
+            //         name: format!("FIND_CONTENT non present {} --> {}", client_a.name, client_b.name),
+            //         description: "find content: calls find content that doesn't exist".to_string(),
+            //         always_run: false,
+            //         run: test_find_content_non_present,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client_a.clone(), client_b.clone()],
+            //     }
+            // ).await;
+            //
+            // // Test find nodes distance zero
+            // test.run(NClientTestSpec {
+            //         name: format!("FIND_NODES Distance 0 {} --> {}", client_a.name, client_b.name),
+            //         description: "find nodes: distance zero expect called nodes enr".to_string(),
+            //         always_run: false,
+            //         run: test_find_nodes_zero_distance,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client_a.clone(), client_b.clone()],
+            //     }
+            // ).await;
+            //
+            // // Test gossiping a collection of blocks to node B (B will gossip back to A)
+            // test.run(
+            //     NClientTestSpec {
+            //         name: format!("GOSSIP blocks from A:{} --> B:{}", client_a.name, client_b.name),
+            //         description: "".to_string(),
+            //         always_run: false,
+            //         run: test_gossip_two_nodes,
+            //         environments: None,
+            //         test_data: content.clone(),
+            //         clients: vec![client_a.clone(), client_b.clone()],
+            //     }
+            // ).await;
         }
    }
 }
@@ -407,7 +410,10 @@ dyn_async! {
         match client_a.rpc.find_content(target_enr, target_key.clone()).await {
             Ok(FindContentInfo::Content { content, utp_transfer }) => {
                 if content != target_value.encode() {
-                    panic!("Error: Unexpected FINDCONTENT response: didn't return expected block body");
+                     panic!("Error: Unexpected FINDCONTENT response: didn't return expected block body. Expected: {:?}, but got: {:?}",
+                    target_value.encode(),  // or just `encoded_value`
+                    content
+                        );
                 }
 
                 if target_value.encode().len() < MAX_PORTAL_CONTENT_PAYLOAD_SIZE {

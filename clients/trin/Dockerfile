@@ -1,5 +1,5 @@
-ARG baseimage=portalnetwork/trin
-ARG tag=latest
+ARG baseimage=meldsun/trin
+ARG tag=pre-ping-extension-with-logs2
 
 FROM $baseimage:$tag
 

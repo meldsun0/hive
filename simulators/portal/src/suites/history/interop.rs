@@ -104,9 +104,9 @@ dyn_async! {
         // Iterate over all possible pairings of clients and run the tests (including self-pairings)
         for (client_a, client_b) in clients.iter().cartesian_product(clients.iter()) {
             for ProcessedContent { content_type, block_number, test_data } in process_content(content.clone()) {
-                // if block_number != 7000000 {
-                //     continue;
-                // }
+                if block_number != 7000000 {
+                    continue;
+                }
                 // test.run(
                 //     NClientTestSpec {
                 //         name: format!("OFFER {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),

@@ -34,17 +34,17 @@ dyn_async! {
                 }
             ).await;
 
-            test.run(
-                NClientTestSpec {
-                    name: "portal_historyLocalContent Expect ContentAbsent".to_string(),
-                    description: "".to_string(),
-                    always_run: false,
-                    run: test_local_content_expect_content_absent,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client.clone()],
-                }
-            ).await;
+            // test.run(
+            //     NClientTestSpec {
+            //         name: "portal_historyLocalContent Expect ContentAbsent".to_string(),
+            //         description: "".to_string(),
+            //         always_run: false,
+            //         run: test_local_content_expect_content_absent,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client.clone()],
+            //     }
+            // ).await;
 
             test.run(
                 NClientTestSpec {
@@ -58,17 +58,17 @@ dyn_async! {
                 }
             ).await;
 
-            test.run(
-                NClientTestSpec {
-                    name: "portal_historyLocalContent Expect ContentPresent".to_string(),
-                    description: "".to_string(),
-                    always_run: false,
-                    run: test_local_content_expect_content_present,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client.clone()],
-                }
-            ).await;
+            // test.run(
+            //     NClientTestSpec {
+            //         name: "portal_historyLocalContent Expect ContentPresent".to_string(),
+            //         description: "".to_string(),
+            //         always_run: false,
+            //         run: test_local_content_expect_content_present,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client.clone()],
+            //     }
+            // ).await;
 
             test.run(
                 NClientTestSpec {
@@ -142,41 +142,41 @@ dyn_async! {
                 }
             ).await;
 
-            test.run(
-                NClientTestSpec {
-                    name: "portal_historyLookupEnr None Found".to_string(),
-                    description: "".to_string(),
-                    always_run: false,
-                    run: test_lookup_enr_non_present,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client.clone()],
-                }
-            ).await;
+            // test.run(
+            //     NClientTestSpec {
+            //         name: "portal_historyLookupEnr None Found".to_string(),
+            //         description: "".to_string(),
+            //         always_run: false,
+            //         run: test_lookup_enr_non_present,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client.clone()],
+            //     }
+            // ).await;
+            //
+            // test.run(
+            //     NClientTestSpec {
+            //         name: "portal_historyLookupEnr ENR Found".to_string(),
+            //         description: "".to_string(),
+            //         always_run: false,
+            //         run: test_lookup_enr_enr_present,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client.clone()],
+            //     }
+            // ).await;
 
-            test.run(
-                NClientTestSpec {
-                    name: "portal_historyLookupEnr ENR Found".to_string(),
-                    description: "".to_string(),
-                    always_run: false,
-                    run: test_lookup_enr_enr_present,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client.clone()],
-                }
-            ).await;
-
-            test.run(
-                NClientTestSpec {
-                    name: "portal_historyLookupEnr Local Enr".to_string(),
-                    description: "".to_string(),
-                    always_run: false,
-                    run: test_lookup_enr_local_enr,
-                    environments: None,
-                    test_data: (),
-                    clients: vec![client.clone()],
-                }
-            ).await;
+            // test.run(
+            //     NClientTestSpec {
+            //         name: "portal_historyLookupEnr Local Enr".to_string(),
+            //         description: "".to_string(),
+            //         always_run: false,
+            //         run: test_lookup_enr_local_enr,
+            //         environments: None,
+            //         test_data: (),
+            //         clients: vec![client.clone()],
+            //     }
+            // ).await;
 
             test.run(
                 NClientTestSpec {

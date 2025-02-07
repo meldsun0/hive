@@ -104,9 +104,10 @@ dyn_async! {
         // Iterate over all possible pairings of clients and run the tests (including self-pairings)
         for (client_a, client_b) in clients.iter().cartesian_product(clients.iter()) {
             for ProcessedContent { content_type, block_number, test_data } in process_content(content.clone()) {
-                if block_number != 7000000 {
-                    continue;
-                }
+                // if block_number != 7000000 {
+                //     continue;
+                // }
+
                 // test.run(
                 //     NClientTestSpec {
                 //         name: format!("OFFER {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),
@@ -119,9 +120,10 @@ dyn_async! {
                 //     }
                 // ).await;
 
+
                 // test.run(
                 //     NClientTestSpec {
-                //         name: format!("GetContent {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),
+                //         name: format!("GetContent  First {}:{} {} --> {}", content_type, get_test_message(block_number), client_a.name, client_b.name),
                 //         description: "".to_string(),
                 //         always_run: false,
                 //         run: test_get_content,
@@ -143,8 +145,8 @@ dyn_async! {
                     }
                 ).await;
             }
-            //
-            // // Test portal history ping
+
+
             // test.run(NClientTestSpec {
             //         name: format!("PING {} --> {}", client_a.name, client_b.name),
             //         description: "".to_string(),
@@ -156,31 +158,36 @@ dyn_async! {
             //     }
             // ).await;
 
-            // // Test find content non-present
-            // test.run(NClientTestSpec {
-            //         name: format!("FIND_CONTENT non present {} --> {}", client_a.name, client_b.name),
-            //         description: "find content: calls find content that doesn't exist".to_string(),
-            //         always_run: false,
-            //         run: test_find_content_non_present,
-            //         environments: None,
-            //         test_data: (),
-            //         clients: vec![client_a.clone(), client_b.clone()],
-            //     }
-            // ).await;
-            //
-            // // Test find nodes distance zero
-            // test.run(NClientTestSpec {
-            //         name: format!("FIND_NODES Distance 0 {} --> {}", client_a.name, client_b.name),
-            //         description: "find nodes: distance zero expect called nodes enr".to_string(),
-            //         always_run: false,
-            //         run: test_find_nodes_zero_distance,
-            //         environments: None,
-            //         test_data: (),
-            //         clients: vec![client_a.clone(), client_b.clone()],
-            //     }
-            // ).await;
-            //
-            // // Test gossiping a collection of blocks to node B (B will gossip back to A)
+            //Test find content non-present
+            test.run(NClientTestSpec {
+                    name: format!("FIND_CONTENT non present {} --> {}", client_a.name, client_b.name),
+                    description: "find content: calls find content that doesn't exist".to_string(),
+                    always_run: false,
+                    run: test_find_content_non_present,
+                    environments: None,
+                    test_data: (),
+                    clients: vec![client_a.clone(), client_b.clone()],
+                }
+            ).await;
+
+           // // Test find nodes distance zero
+           //  test.run(NClientTestSpec {
+           //          name: format!("FIND_NODES Distance 0 {} --> {}", client_a.name, client_b.name),
+           //          description: "find nodes: distance zero expect called nodes enr".to_string(),
+           //          always_run: false,
+           //          run: test_find_nodes_zero_distance,
+           //          environments: None,
+           //          test_data: (),
+           //          clients: vec![client_a.clone(), client_b.clone()],
+           //      }
+           //  ).await;
+
+
+
+
+
+
+            // volver a comentar Test gossiping a collection of blocks to node B (B will gossip back to A)
             // test.run(
             //     NClientTestSpec {
             //         name: format!("GOSSIP blocks from A:{} --> B:{}", client_a.name, client_b.name),
@@ -324,6 +331,7 @@ dyn_async! {
 
 dyn_async! {
     // test that a node will return a content via GETCONTENT template that it has stored locally
+    //first
     async fn test_get_content<'a>(clients: Vec<Client>, test_data: TestData) {
         let (client_a, client_b) = match clients.iter().collect_tuple() {
             Some((client_a, client_b)) => (client_a, client_b),
@@ -362,18 +370,18 @@ dyn_async! {
         match client_a.rpc.get_content(target_key.clone()).await {
             Ok(GetContentInfo { content, utp_transfer }) => {
                 if content != target_value.encode() {
-                    panic!("Error: Unexpected GETCONTENT response: didn't return expected target content");
+                    panic!("Error: Unexpected GETCONTENT 1 response: didn't return expected target content");
                 }
 
                 if target_value.encode().len() < MAX_PORTAL_CONTENT_PAYLOAD_SIZE {
                     if utp_transfer {
-                        panic!("Error: Unexpected GETCONTENT response: utp_transfer was supposed to be false");
+                        panic!("Error: Unexpected GETCONTENT 2 response: utp_transfer was supposed to be false");
                     }
                 } else if !utp_transfer {
-                    panic!("Error: Unexpected GETCONTENT response: utp_transfer was supposed to be true");
+                    panic!("Error: Unexpected GETCONTENT 3 response: utp_transfer was supposed to be true");
                 }
             },
-            Err(err) => panic!("Error: Unable to get response from GETCONTENT request: {err:?}"),
+            Err(err) => panic!("Error: Unable to get response from GETCONTENT M request: {err:?}"),
         }
     }
 }
@@ -397,7 +405,7 @@ dyn_async! {
         let (target_key, target_value) = test_data.first().cloned().expect("Target content is required for this test");
         match client_b.rpc.store(target_key.clone(), target_value.encode()).await {
             Ok(result) => if !result {
-                panic!("Error storing target content for find content");
+                panic!("Error storing target content for find content: {result:?}");
             },
             Err(err) => panic!("Error storing target content: {err:?}"),
         }

@@ -1,5 +1,5 @@
 ARG baseimage=meldsun/samba
-ARG tag=25.2-develop-a8a0424
+ARG tag=25.2-develop-a8a0424-2
 FROM $baseimage:$tag
 RUN echo "latest" > /version.txt
 
